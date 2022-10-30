@@ -1,4 +1,6 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> {}
+, ulauncher ? pkgs.ulauncher
+}:
 let
   my-python = pkgs.python3;
   python-with-my-packages = my-python.withPackages (p: with p; [
@@ -17,6 +19,6 @@ pkgs.mkShell {
     gobject-introspection
   ];
   shellHook = ''
-    PYTHONPATH=${python-with-my-packages}/${python-with-my-packages.sitePackages}
+    export PYTHONPATH=${ulauncher}/lib/python3.9/site-packages:${python-with-my-packages}/${python-with-my-packages.sitePackages}
   '';
 }
